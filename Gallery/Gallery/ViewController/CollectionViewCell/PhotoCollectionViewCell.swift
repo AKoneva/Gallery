@@ -21,7 +21,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with photo: Photo) {
-        photoInfoLabel.text = photo.alt + "\nBy " + photo.photographer
-        photoImageView.kf.setImage(with: photo.url)
+        photoInfoLabel.text = photo.alt
+        photoImageView.kf.setImage(with: photo.src.medium)
     }
 }

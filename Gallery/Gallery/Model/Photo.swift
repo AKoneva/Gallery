@@ -13,17 +13,17 @@ struct Photo: Decodable {
     let height: Int
     let url: URL
     let photographer: String
-//    let photographerUrl: URL
-//    let photographerId: Int
-//    let avgColor: String
-//    let src: PhotoSource
-//    let liked: Bool
+    let photographerUrl: URL
+    let photographerId: Int
+    let avgColor: String
+    let src: PhotoSource
+    let liked: Bool
     let alt: String
 
-//    private enum CodingKeys: String, CodingKey {
-//        case id, width, height, url, photographer, src, liked, alt
-//        case photographerUrl = "photographer_url"
-//        case photographerId = "photographer_id"
-//        case avgColor = "avg_color"
-//    }
+    private enum CodingKeys: String, CodingKey {
+        case id, width, height, url, photographer, src, liked, alt
+        case photographerUrl = "photographer_url"
+        case photographerId = "photographer_id"
+        case avgColor = "avg_color"
+    }
 }

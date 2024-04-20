@@ -22,7 +22,7 @@ class PreviewViewController: UIViewController {
     }
 
     func configureUI() {
-        guard let name = photo?.alt, let photographer = photo?.photographer, let url = photo?.url else { return }
+        guard let name = photo?.alt, let photographer = photo?.photographer, let url = photo?.src.original else { return }
 
         photoInfoLabel.text = name + "\nAuthor: " + photographer
         textBackground.layer.cornerRadius = 20
