@@ -12,21 +12,42 @@ class PhotoViewModel {
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
     @Published var currentPage: Int = 1
-    @Published var totalPages: Int = 1
+    var totalPages: Int = 1
+    var hasNextPage: Bool = false
+    var hasPrevPage: Bool = false
 
 }
 
 extension PhotoViewModel {
     func fetchCuratedPhotos() {
-        NetworkManager.shared.fetchCuratedPhotos { result in
+        NetworkManager.shared.fetchCuratedPhotos(page: currentPage) { result in
             switch result {
-            case .success(let photos):
+                case .success(let curatedPhotos):
                     self.errorMessage = nil
-                    self.photos = photos
-            case .failure(let error):
+                    if !self.photos.isEmpty {
+                        self.photos.append(contentsOf: curatedPhotos.photos)
+                    } else {
+                        self.photos = curatedPhotos.photos
+                    }
+                    self.currentPage = curatedPhotos.page
+                    self.hasNextPage = curatedPhotos.nextPage != nil
+                    self.hasPrevPage = curatedPhotos.prevPage != nil
+                case .failure(let error):
                     self.errorMessage = "Error fetching curated photos: \(error)"
                     print("Error fetching curated photos: \(error)")
             }
         }
+    }
+
+    func fetchNextPage() {
+        guard hasNextPage else { return }
+        currentPage += 1
+        fetchCuratedPhotos()
+    }
+
+    func fetchPrevPage() {
+        guard hasPrevPage else { return }
+        currentPage -= 1
+        fetchCuratedPhotos()
     }
 }

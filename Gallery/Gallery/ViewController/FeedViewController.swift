@@ -98,4 +98,10 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
             navigationController?.pushViewController(previewViewController, animated: true)
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+            if indexPath.item == viewModel.photos.count - 1 {
+                viewModel.fetchNextPage()
+            }
+        }
 }

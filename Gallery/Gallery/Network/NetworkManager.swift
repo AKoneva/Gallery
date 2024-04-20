@@ -16,18 +16,25 @@ class NetworkManager {
 
     private init() {}
 
-    func fetchCuratedPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
-        let urlString = "\(baseURL)/curated?per_page=20"
+    func fetchCuratedPhotos(page: Int = 1,
+                            perPage: Int = 50,
+                            completion: @escaping (Result<CuratedPhotosResponse, Error>) -> Void) {
+        let endpoint = baseURL + "/curated"
+
+            let parameters: [String: Any] = [
+                "page": page,
+                "per_page": perPage
+            ]
 
         let headers: HTTPHeaders = ["Authorization": apiKey]
 
-        AF.request(urlString, headers: headers).responseData { response in
+        AF.request(endpoint, parameters: parameters, headers: headers).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(CuratedPhotosResponse.self, from: data)
-                    completion(.success(result.photos))
+                    completion(.success(result))
                 } catch {
                     completion(.failure(error))
                 }
