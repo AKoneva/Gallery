@@ -6,60 +6,27 @@
 //
 
 import Foundation
+import Combine
 
 class PhotoViewModel {
-    var photos: [Photo] = []
-    var errorMessage: String? = nil
-    var currentPage: Int = 1
-    var totalPages: Int = 1
+    @Published var photos: [Photo] = []
+    @Published var errorMessage: String? = nil
+    @Published var currentPage: Int = 1
+    @Published var totalPages: Int = 1
 
-    func fetchMockData()  {
-        let mockPhotos: [Photo] = [
-            Photo(id: 1,
-                  width: 800,
-                  height: 600,
-                  url: URL(string: "https://picsum.photos/id/237/200/300")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 1"),
-            Photo(id: 2,
-                  width: 300,
-                  height: 500,
-                  url: URL(string: "https://picsum.photos/id/44/300/500")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 2")
-            ,
-            Photo(id: 2,
-                  width: 300,
-                  height: 500,
-                  url: URL(string: "https://picsum.photos/id/44/300/500")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 2"),
-            Photo(id: 2,
-                  width: 300,
-                  height: 500,
-                  url: URL(string: "https://picsum.photos/id/44/300/500")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 2"),
-            Photo(id: 2,
-                  width: 300,
-                  height: 500,
-                  url: URL(string: "https://picsum.photos/id/44/300/500")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 2"),
-            Photo(id: 2,
-                  width: 300,
-                  height: 500,
-                  url: URL(string: "https://picsum.photos/id/44/300/500")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 2"),
-            Photo(id: 2,
-                  width: 300,
-                  height: 500,
-                  url: URL(string: "https://picsum.photos/id/44/300/500")!,
-                  photographer: "Anna",
-                  alt: "Sample photo 2")
-        ]
+}
 
-        photos =  mockPhotos
+extension PhotoViewModel {
+    func fetchCuratedPhotos() {
+        NetworkManager.shared.fetchCuratedPhotos { result in
+            switch result {
+            case .success(let photos):
+                    self.errorMessage = nil
+                    self.photos = photos
+            case .failure(let error):
+                    self.errorMessage = "Error fetching curated photos: \(error)"
+                    print("Error fetching curated photos: \(error)")
+            }
+        }
     }
 }

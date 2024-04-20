@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class FeedViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
-    private let viewModel = PhotoViewModel()
+    private var viewModel = PhotoViewModel()
+    private var cancellables: Set<AnyCancellable> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,17 +20,20 @@ class FeedViewController: UIViewController {
         collectionViewSetUp()
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension FeedViewController {
     func collectionViewSetUp() {
         collectionView.dataSource = self
         collectionView.delegate = self
 
         collectionLayoutSetUp()
+        bindViewModel()
 
-        viewModel.fetchMockData()
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        viewModel.fetchCuratedPhotos()
     }
 
     func collectionLayoutSetUp() {
@@ -45,6 +50,15 @@ class FeedViewController: UIViewController {
     @objc func orientationDidChange() {
         collectionView.reloadData()
     }
+
+    private func bindViewModel() {
+           viewModel.$photos
+               .receive(on: DispatchQueue.main)
+               .sink { [weak self] _ in
+                   self?.collectionView.reloadData()
+               }
+               .store(in: &cancellables)
+       }
 }
 
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

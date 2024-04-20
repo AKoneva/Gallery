@@ -15,26 +15,17 @@
 		048411E12BD202DE0063393E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 048411E02BD202DE0063393E /* Base */; };
 		048412552BD383870063393E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048412542BD383870063393E /* PreviewViewController.swift */; };
 		048412582BD383E00063393E /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048412572BD383E00063393E /* PhotoCollectionViewCell.swift */; };
-		0484125B2BD384C30063393E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0484125A2BD384C30063393E /* Kingfisher */; };
 		048412622BD385000063393E /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048412612BD385000063393E /* SearchResponse.swift */; };
 		048412642BD385140063393E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048412632BD385140063393E /* Photo.swift */; };
 		048412682BD385420063393E /* PhotoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048412672BD385420063393E /* PhotoSource.swift */; };
 		0484126A2BD385650063393E /* CuratedPhotosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048412692BD385650063393E /* CuratedPhotosResponse.swift */; };
 		0484126C2BD389130063393E /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484126B2BD389130063393E /* PhotoViewModel.swift */; };
+		0484127E2BD3B94B0063393E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484127D2BD3B94B0063393E /* NetworkManager.swift */; };
+		048412892BD3C1BA0063393E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 048412882BD3C1BA0063393E /* Alamofire */; };
+		0484128B2BD3C1BA0063393E /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0484128A2BD3C1BA0063393E /* AlamofireDynamic */; };
+		0484128D2BD3C1CA0063393E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0484128C2BD3C1CA0063393E /* Kingfisher */; };
+		048412932BD3C6810063393E /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048412842BD3BF4F0063393E /* Combine.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0484126E2BD38E780063393E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		048411D12BD202DC0063393E /* Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +43,8 @@
 		048412672BD385420063393E /* PhotoSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSource.swift; sourceTree = "<group>"; };
 		048412692BD385650063393E /* CuratedPhotosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuratedPhotosResponse.swift; sourceTree = "<group>"; };
 		0484126B2BD389130063393E /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
+		0484127D2BD3B94B0063393E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		048412842BD3BF4F0063393E /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +52,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0484125B2BD384C30063393E /* Kingfisher in Frameworks */,
+				0484128D2BD3C1CA0063393E /* Kingfisher in Frameworks */,
+				0484128B2BD3C1BA0063393E /* AlamofireDynamic in Frameworks */,
+				048412932BD3C6810063393E /* Combine.framework in Frameworks */,
+				048412892BD3C1BA0063393E /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +67,7 @@
 			children = (
 				048411D32BD202DC0063393E /* Gallery */,
 				048411D22BD202DC0063393E /* Products */,
+				048412832BD3BF4F0063393E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,6 +152,7 @@
 		048412532BD377110063393E /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				0484127D2BD3B94B0063393E /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -167,6 +165,14 @@
 			path = CollectionViewCell;
 			sourceTree = "<group>";
 		};
+		048412832BD3BF4F0063393E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				048412842BD3BF4F0063393E /* Combine.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -177,7 +183,6 @@
 				048411CD2BD202DC0063393E /* Sources */,
 				048411CE2BD202DC0063393E /* Frameworks */,
 				048411CF2BD202DC0063393E /* Resources */,
-				0484126E2BD38E780063393E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -185,7 +190,9 @@
 			);
 			name = Gallery;
 			packageProductDependencies = (
-				0484125A2BD384C30063393E /* Kingfisher */,
+				048412882BD3C1BA0063393E /* Alamofire */,
+				0484128A2BD3C1BA0063393E /* AlamofireDynamic */,
+				0484128C2BD3C1CA0063393E /* Kingfisher */,
 			);
 			productName = Gallery;
 			productReference = 048411D12BD202DC0063393E /* Gallery.app */;
@@ -250,6 +257,7 @@
 				048411D92BD202DC0063393E /* FeedViewController.swift in Sources */,
 				0484126A2BD385650063393E /* CuratedPhotosResponse.swift in Sources */,
 				048412582BD383E00063393E /* PhotoCollectionViewCell.swift in Sources */,
+				0484127E2BD3B94B0063393E /* NetworkManager.swift in Sources */,
 				048412622BD385000063393E /* SearchResponse.swift in Sources */,
 				048411D52BD202DC0063393E /* AppDelegate.swift in Sources */,
 				048411D72BD202DC0063393E /* SceneDelegate.swift in Sources */,
@@ -513,7 +521,17 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0484125A2BD384C30063393E /* Kingfisher */ = {
+		048412882BD3C1BA0063393E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0484125C2BD384CE0063393E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		0484128A2BD3C1BA0063393E /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0484125C2BD384CE0063393E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+		0484128C2BD3C1CA0063393E /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 048412592BD384C30063393E /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
