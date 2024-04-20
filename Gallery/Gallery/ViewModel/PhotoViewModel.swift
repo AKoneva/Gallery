@@ -12,10 +12,11 @@ class PhotoViewModel {
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
     @Published var currentPage: Int = 1
+    @Published var query: String? = nil
     var totalPages: Int = 1
     var hasNextPage: Bool = false
     var hasPrevPage: Bool = false
-
+    var totalResults: Int = 1
 }
 
 extension PhotoViewModel {
@@ -24,7 +25,8 @@ extension PhotoViewModel {
             switch result {
                 case .success(let curatedPhotos):
                     self.errorMessage = nil
-                    if !self.photos.isEmpty {
+                    if curatedPhotos.page == 1 {
+                        self.photos = []
                         self.photos.append(contentsOf: curatedPhotos.photos)
                     } else {
                         self.photos = curatedPhotos.photos
@@ -39,10 +41,18 @@ extension PhotoViewModel {
         }
     }
 
-    func fetchNextPage() {
-        guard hasNextPage else { return }
-        currentPage += 1
-        fetchCuratedPhotos()
+    func fetchNextPage(isSearch: Bool = false) {
+        if isSearch {
+            if photos.count < totalResults {
+                currentPage += 1
+                searchPhotos()
+            } else { return }
+        } else {
+            guard hasNextPage else { return }
+            
+            currentPage += 1
+            fetchCuratedPhotos()
+        }
     }
 
     func fetchPrevPage() {
@@ -50,4 +60,27 @@ extension PhotoViewModel {
         currentPage -= 1
         fetchCuratedPhotos()
     }
+
+    func searchPhotos() {
+        guard let query = query else { return }
+
+        NetworkManager.shared.searchPhotos(query: query, page: currentPage) { searchResult in
+            switch searchResult {
+                case .success(let response):
+                    self.errorMessage = nil
+                    if response.page == 1 {
+                        self.photos = []
+                        self.photos = response.photos
+                    } else {
+                        self.photos.append(contentsOf: response.photos)
+                        print(self.photos.count)
+                    }
+                    self.totalResults = response.totalResults
+                case .failure(let error):
+                    self.errorMessage = "Error fetching curated photos: \(error)"
+                    print("Error fetching curated photos: \(error)")
+            }
+        }
+    }
+    
 }

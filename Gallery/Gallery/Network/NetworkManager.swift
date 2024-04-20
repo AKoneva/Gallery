@@ -21,26 +21,44 @@ class NetworkManager {
                             completion: @escaping (Result<CuratedPhotosResponse, Error>) -> Void) {
         let endpoint = baseURL + "/curated"
 
-            let parameters: [String: Any] = [
-                "page": page,
-                "per_page": perPage
-            ]
+        let parameters: [String: Any] = [
+            "page": page,
+            "per_page": perPage
+        ]
 
         let headers: HTTPHeaders = ["Authorization": apiKey]
 
-        AF.request(endpoint, parameters: parameters, headers: headers).responseData { response in
-            switch response.result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    let result = try decoder.decode(CuratedPhotosResponse.self, from: data)
-                    completion(.success(result))
-                } catch {
-                    completion(.failure(error))
+        AF.request(endpoint, parameters: parameters, headers: headers)
+            .responseDecodable(of: CuratedPhotosResponse.self) { response in
+                switch response.result {
+                    case .success(let curatedPhotos):
+                        completion(.success(curatedPhotos))
+                    case .failure(let error):
+                        completion(.failure(error))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
-        }
+    }
+
+    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+        let endpoint = baseURL + "/search"
+        let parameters: [String: Any] = [
+            "query": query,
+            "page": page,
+            "per_page": perPage
+        ]
+
+        let headers: HTTPHeaders = [
+            "Authorization": apiKey
+        ]
+
+        AF.request(endpoint, parameters: parameters, headers: headers)
+            .responseDecodable(of: SearchResponse.self) { response in
+                switch response.result {
+                    case .success(let searchResponse):
+                        completion(.success(searchResponse))
+                    case .failure(let error):
+                        completion(.failure(error))
+                }
+            }
     }
 }

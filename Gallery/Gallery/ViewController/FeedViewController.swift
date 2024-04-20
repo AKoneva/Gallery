@@ -101,7 +101,42 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
             if indexPath.item == viewModel.photos.count - 1 {
-                viewModel.fetchNextPage()
+                if viewModel.query != nil {
+                    viewModel.fetchNextPage(isSearch: true)
+                } else {
+                    viewModel.fetchNextPage()
+                }
             }
         }
+}
+
+extension FeedViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !query.isEmpty else {
+            searchBar.text = nil
+            searchBar.resignFirstResponder()
+
+            resetSearch()
+            viewModel.fetchCuratedPhotos()
+            return
+        }
+
+        searchBar.resignFirstResponder()
+
+        viewModel.query = query
+        viewModel.searchPhotos()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+
+        resetSearch()
+        viewModel.fetchCuratedPhotos()
+    }
+
+   private func resetSearch() {
+       viewModel.query = nil
+       viewModel.currentPage = 1
+    }
 }
