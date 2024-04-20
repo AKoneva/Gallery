@@ -27,6 +27,10 @@ class FeedViewController: UIViewController {
         viewModel.fetchMockData()
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     func collectionLayoutSetUp() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -34,6 +38,12 @@ class FeedViewController: UIViewController {
         layout.minimumInteritemSpacing = 4
         collectionView
             .setCollectionViewLayout(layout, animated: true)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+    @objc func orientationDidChange() {
+        collectionView.reloadData()
     }
 }
 
