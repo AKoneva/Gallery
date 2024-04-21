@@ -11,6 +11,8 @@ import Combine
 class FeedViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
     private var viewModel = PhotoViewModel()
     private var cancellables: Set<AnyCancellable> = []
 
@@ -33,7 +35,8 @@ extension FeedViewController {
         collectionLayoutSetUp()
         bindViewModel()
 
-        viewModel.fetchCuratedPhotos()
+        showActivityView()
+        viewModel.fetchPhotos()
     }
 
     func collectionLayoutSetUp() {
@@ -55,6 +58,7 @@ extension FeedViewController {
         viewModel.$photos
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
+                self?.hideActivityView()
                 self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
@@ -66,6 +70,31 @@ extension FeedViewController {
                 self?.collectionView.setContentOffset(topOffset, animated: true)
             }
             .store(in: &cancellables)
+
+        viewModel.$errorMessage
+                .receive(on: DispatchQueue.main)
+                .compactMap { $0 }
+                .sink { [weak self] errorMessage in
+                    self?.hideActivityView()
+                    self?.showErrorAlert(message: errorMessage)
+                }
+                .store(in: &cancellables)
+    }
+
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func showActivityView() {
+        activityView.isHidden = false
+        activityView.startAnimating()
+    }
+
+    private func hideActivityView() {
+        activityView.isHidden = false
+        activityView.stopAnimating()
     }
 }
 
@@ -139,12 +168,12 @@ extension FeedViewController: UISearchBarDelegate {
     private func prepareSearchPhotos(query: String) {
         viewModel.photoType = .search
         viewModel.query = query
-        viewModel.searchPhotos()
+        viewModel.fetchPhotos()
     }
 
     private func resetSearchPhotos() {
         viewModel.photoType = .curated
         viewModel.query = nil
-        viewModel.fetchCuratedPhotos()
+        viewModel.fetchPhotos()
     }
 }

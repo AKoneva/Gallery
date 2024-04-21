@@ -4,9 +4,28 @@
 //
 //  Created by Анна Перехрест  on 2024/04/20.
 //
-
 import Foundation
 import Alamofire
+
+enum NetworkError: Error {
+    case invalidURL
+    case invalidResponse
+    case decodingError
+    case serverError(String)
+
+    var errorMessage: String {
+            switch self {
+            case .invalidURL:
+                return "Invalid URL. Please try again later."
+            case .invalidResponse:
+                return "Invalid response from the server. Please try again later."
+            case .decodingError:
+                return "Error decoding the response. Please try again later."
+            case .serverError(let message):
+                return "Server error: \(message)"
+            }
+        }
+}
 
 class NetworkManager {
     static let shared = NetworkManager()
@@ -16,49 +35,42 @@ class NetworkManager {
 
     private init() {}
 
-    func fetchCuratedPhotos(page: Int = 1,
-                            perPage: Int = 50,
-                            completion: @escaping (Result<CuratedPhotosResponse, Error>) -> Void) {
-        let endpoint = baseURL + "/curated"
-
-        let parameters: [String: Any] = [
-            "page": page,
-            "per_page": perPage
-        ]
-
+    func fetchCuratedPhotos(page: Int = 1, perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
+        let endpoint = "\(baseURL)/curated"
+        let parameters: [String: Any] = ["page": page, "per_page": perPage]
         let headers: HTTPHeaders = ["Authorization": apiKey]
 
-        AF.request(endpoint, parameters: parameters, headers: headers)
-            .responseDecodable(of: CuratedPhotosResponse.self) { response in
-                switch response.result {
-                    case .success(let curatedPhotos):
-                        completion(.success(curatedPhotos))
-                    case .failure(let error):
-                        completion(.failure(error))
-                }
-            }
+        requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
 
-    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        let endpoint = baseURL + "/search"
-        let parameters: [String: Any] = [
-            "query": query,
-            "page": page,
-            "per_page": perPage
-        ]
+    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, NetworkError>) -> Void) {
+        let endpoint = "\(baseURL)/search"
+        let parameters: [String: Any] = ["query": query, "page": page, "per_page": perPage]
+        let headers: HTTPHeaders = ["Authorization": apiKey]
 
-        let headers: HTTPHeaders = [
-            "Authorization": apiKey
-        ]
+        requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
+    }
 
-        AF.request(endpoint, parameters: parameters, headers: headers)
-            .responseDecodable(of: SearchResponse.self) { response in
+    private func requestDecodable<T: Decodable>(endpoint: String, parameters: Parameters?, headers: HTTPHeaders?, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        guard let url = URL(string: endpoint) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+
+        AF.request(url, parameters: parameters, headers: headers)
+            .validate()
+            .responseDecodable(of: T.self) { response in
                 switch response.result {
-                    case .success(let searchResponse):
-                        completion(.success(searchResponse))
+                    case .success(let result):
+                        completion(.success(result))
                     case .failure(let error):
-                        completion(.failure(error))
+                        if let statusCode = response.response?.statusCode {
+                            completion(.failure(.serverError("Server error with status code: \(statusCode)")))
+                        } else {
+                            completion(.failure(.decodingError))
+                        }
                 }
             }
     }
 }
+

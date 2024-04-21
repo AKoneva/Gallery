@@ -22,12 +22,18 @@ class PhotoViewModel {
 
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
+    @Published var isLoading: Bool = false
     var query: String? = nil
-    var totalPages: Int = 1
-    var hasNextPage: Bool = false
-    var hasPrevPage: Bool = false
     var totalResults: Int = 1
     var currentPage: Int = 1
+
+    private var hasNextPage: Bool {
+        return photos.count < totalResults
+    }
+
+    private var hasPrevPage: Bool {
+        return currentPage > 1
+    }
 
     private func resetCurrentPageAndPhotos() {
         currentPage = 1
@@ -36,64 +42,69 @@ class PhotoViewModel {
 }
 
 extension PhotoViewModel {
-    func fetchCuratedPhotos() {
-        NetworkManager.shared.fetchCuratedPhotos(page: currentPage) { result in
-            switch result {
-                case .success(let curatedPhotos):
-                    self.errorMessage = nil
-                    self.photos.append(contentsOf: curatedPhotos.photos)
-                    self.currentPage = curatedPhotos.page
-                    self.hasNextPage = curatedPhotos.nextPage != nil
-                    self.hasPrevPage = curatedPhotos.prevPage != nil
-                case .failure(let error):
-                    self.errorMessage = "Error fetching curated photos: \(error)"
-                    print("Error fetching curated photos: \(error)")
-            }
-        }
-    }
-
-    func searchPhotos() {
-        guard let query = query else { return }
-
-        NetworkManager.shared.searchPhotos(query: query, page: currentPage) { searchResult in
-            switch searchResult {
-                case .success(let response):
-                    self.errorMessage = nil
-                    self.photos.append(contentsOf: response.photos)
-                    self.totalResults = response.totalResults
-                case .failure(let error):
-                    self.errorMessage = "Error fetching curated photos: \(error)"
-                    print("Error fetching curated photos: \(error)")
-            }
-        }
-    }
-
     func fetchNextPage() {
-        switch photoType {
-            case .curated:
-                guard hasNextPage else { return }
-
-                currentPage += 1
-                fetchCuratedPhotos()
-            case .search:
-                if photos.count < totalResults {
-                    currentPage += 1
-                    searchPhotos()
-                } else { return }
-        }
+        currentPage += 1
+        fetchPhotos()
     }
 
     func fetchPrevPage() {
+        currentPage -= 1
+        fetchPhotos()
+    }
+
+    func fetchPhotos() {
+        isLoading = true
         switch photoType {
             case .curated:
-                guard hasPrevPage else { return }
-                currentPage -= 1
                 fetchCuratedPhotos()
             case .search:
-                guard currentPage > 1 else { return }
-                currentPage -= 1
                 searchPhotos()
         }
     }
 
+    private func fetchCuratedPhotos() {
+        NetworkManager.shared.fetchCuratedPhotos(page: currentPage) { result in
+            switch result {
+                case .success(let responce):
+                    self.handleCuratedResponse(responce)
+                case .failure(let error):
+                    self.handleNetworkError(error)
+            }
+        }
+    }
+
+    private func searchPhotos() {
+        guard let query = query else { return }
+
+        NetworkManager.shared.searchPhotos(query: query, page: currentPage) { result in
+            switch result {
+                case .success(let responce):
+                    self.handleSearchResponse(responce)
+                case .failure(let error):
+                    self.handleNetworkError(error)
+            }
+        }
+    }
+
+    private func handleCuratedResponse(_ response: CuratedPhotosResponse) {
+        isLoading = false
+        errorMessage = nil
+        photos.append(contentsOf: response.photos)
+        totalResults = response.totalResults
+        print("Total Results: \(response.totalResults)\nPage: \(response.page)\nPhotos: \(response.photos)")
+    }
+
+    private func handleSearchResponse(_ response: SearchResponse) {
+        isLoading = false
+        errorMessage = nil
+        photos.append(contentsOf: response.photos)
+        totalResults = response.totalResults
+        print("Total Results: \(response.totalResults)\nPage: \(response.page)\nPhotos: \(response.photos)")
+    }
+
+    private func handleNetworkError(_ error: NetworkError) {
+        isLoading = false
+        errorMessage = error.errorMessage
+        print(errorMessage ?? "Unknown error")
+    }
 }
