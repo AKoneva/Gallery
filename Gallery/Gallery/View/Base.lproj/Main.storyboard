@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -37,6 +38,7 @@
                                 <activityIndicatorView key="backgroundView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" id="bJT-gV-nWV">
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="763"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" name="AccentColor"/>
                                 </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="MBe-6D-FA4" customClass="PhotoCollectionViewCell" customModule="Gallery" customModuleProvider="target">
@@ -135,12 +137,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Screenshot_2024-04-20_at_13.41.43-removebg-preview-2" translatesAutoresizingMaskIntoConstraints="NO" id="tTR-sF-Btv">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzp-hR-xcS">
                                 <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
-                            </imageView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="atx-WS-hdo">
-                                <rect key="frame" x="196.66666666666666" y="447.66666666666669" width="37" height="37"/>
-                            </activityIndicatorView>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nlt-GU-Jps">
+                                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Prg-n7-KhW">
+                                                <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                                            </imageView>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="s8J-nj-kmn">
+                                                <rect key="frame" x="196.66666666666666" y="447.66666666666669" width="37" height="37"/>
+                                                <color key="color" name="AccentColor"/>
+                                            </activityIndicatorView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="Prg-n7-KhW" firstAttribute="leading" secondItem="Nlt-GU-Jps" secondAttribute="leading" id="1hm-sm-Sd0"/>
+                                            <constraint firstItem="s8J-nj-kmn" firstAttribute="centerX" secondItem="Nlt-GU-Jps" secondAttribute="centerX" id="6Nn-13-sdC"/>
+                                            <constraint firstAttribute="bottom" secondItem="Prg-n7-KhW" secondAttribute="bottom" id="DGb-aK-BXl"/>
+                                            <constraint firstItem="s8J-nj-kmn" firstAttribute="centerY" secondItem="Nlt-GU-Jps" secondAttribute="centerY" id="Xzi-Sf-RhC"/>
+                                            <constraint firstAttribute="trailing" secondItem="Prg-n7-KhW" secondAttribute="trailing" id="bEW-2I-yHG"/>
+                                            <constraint firstItem="Prg-n7-KhW" firstAttribute="top" secondItem="Nlt-GU-Jps" secondAttribute="top" id="xHD-BE-IpW"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Nlt-GU-Jps" firstAttribute="height" secondItem="bzp-hR-xcS" secondAttribute="height" id="Fk7-it-3lh"/>
+                                    <constraint firstItem="Nlt-GU-Jps" firstAttribute="top" secondItem="bzp-hR-xcS" secondAttribute="top" id="KJ8-xT-RGw"/>
+                                    <constraint firstItem="Nlt-GU-Jps" firstAttribute="leading" secondItem="bzp-hR-xcS" secondAttribute="leading" id="LuM-WG-sbp"/>
+                                    <constraint firstItem="Nlt-GU-Jps" firstAttribute="width" secondItem="bzp-hR-xcS" secondAttribute="width" id="ap2-zM-pr9"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nlt-GU-Jps" secondAttribute="trailing" id="ci2-oM-O7g"/>
+                                    <constraint firstAttribute="bottom" secondItem="Nlt-GU-Jps" secondAttribute="bottom" id="hh8-oo-OCb"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="AXN-EV-LOP"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="NGU-Y8-Abe"/>
+                            </scrollView>
                             <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ts-AD-Nji">
                                 <rect key="frame" x="0.0" y="812" width="430" height="120"/>
                                 <subviews>
@@ -153,43 +185,45 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Cbp-Sd-CDN" secondAttribute="trailing" constant="10" id="7KR-ed-QVd"/>
-                                    <constraint firstAttribute="bottom" secondItem="Cbp-Sd-CDN" secondAttribute="bottom" constant="10" id="UDH-Lb-qc1"/>
-                                    <constraint firstItem="Cbp-Sd-CDN" firstAttribute="leading" secondItem="8ts-AD-Nji" secondAttribute="leading" constant="10" id="fSp-Lw-UZj"/>
-                                    <constraint firstAttribute="height" constant="120" id="iny-rM-iW9"/>
-                                    <constraint firstItem="Cbp-Sd-CDN" firstAttribute="top" secondItem="8ts-AD-Nji" secondAttribute="top" constant="10" id="xfx-Ee-eOK"/>
+                                    <constraint firstAttribute="height" constant="120" id="JyR-46-csv"/>
+                                    <constraint firstAttribute="bottom" secondItem="Cbp-Sd-CDN" secondAttribute="bottom" constant="10" id="ONA-yI-49v"/>
+                                    <constraint firstItem="Cbp-Sd-CDN" firstAttribute="leading" secondItem="8ts-AD-Nji" secondAttribute="leading" constant="10" id="cAi-lT-TVc"/>
+                                    <constraint firstItem="Cbp-Sd-CDN" firstAttribute="top" secondItem="8ts-AD-Nji" secondAttribute="top" constant="10" id="smq-2k-5Av"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cbp-Sd-CDN" secondAttribute="trailing" constant="10" id="vt2-WE-nZw"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="mHc-Ql-Lxr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="8ts-AD-Nji" secondAttribute="bottom" id="5N8-D4-VYZ"/>
-                            <constraint firstItem="atx-WS-hdo" firstAttribute="centerY" secondItem="8rp-rB-vmC" secondAttribute="centerY" id="9lO-lU-6ZL"/>
-                            <constraint firstItem="tTR-sF-Btv" firstAttribute="leading" secondItem="mHc-Ql-Lxr" secondAttribute="leading" id="AA6-lR-3oe"/>
-                            <constraint firstItem="tTR-sF-Btv" firstAttribute="centerX" secondItem="8rp-rB-vmC" secondAttribute="centerX" id="Eao-MI-0VO"/>
-                            <constraint firstItem="mHc-Ql-Lxr" firstAttribute="trailing" secondItem="tTR-sF-Btv" secondAttribute="trailing" id="Jec-eW-aLD"/>
-                            <constraint firstItem="8ts-AD-Nji" firstAttribute="leading" secondItem="mHc-Ql-Lxr" secondAttribute="leading" id="ZFg-gy-1gt"/>
-                            <constraint firstItem="8ts-AD-Nji" firstAttribute="trailing" secondItem="mHc-Ql-Lxr" secondAttribute="trailing" id="hIS-hE-9b3"/>
-                            <constraint firstAttribute="bottom" secondItem="tTR-sF-Btv" secondAttribute="bottom" id="nU5-Wk-RGS"/>
-                            <constraint firstItem="tTR-sF-Btv" firstAttribute="top" secondItem="8rp-rB-vmC" secondAttribute="top" id="qK4-ga-qij"/>
-                            <constraint firstItem="atx-WS-hdo" firstAttribute="centerX" secondItem="8rp-rB-vmC" secondAttribute="centerX" id="vW0-1c-buQ"/>
+                            <constraint firstItem="8ts-AD-Nji" firstAttribute="trailing" secondItem="mHc-Ql-Lxr" secondAttribute="trailing" id="1Yj-zU-G1G"/>
+                            <constraint firstItem="8ts-AD-Nji" firstAttribute="centerX" secondItem="8rp-rB-vmC" secondAttribute="centerX" id="3fB-Fe-I56"/>
+                            <constraint firstItem="bzp-hR-xcS" firstAttribute="top" secondItem="8rp-rB-vmC" secondAttribute="top" id="4Jd-BF-rV5"/>
+                            <constraint firstAttribute="bottom" secondItem="8ts-AD-Nji" secondAttribute="bottom" id="6sn-jF-7Wd"/>
+                            <constraint firstItem="bzp-hR-xcS" firstAttribute="trailing" secondItem="8ts-AD-Nji" secondAttribute="trailing" id="DXn-ti-CVg"/>
+                            <constraint firstItem="bzp-hR-xcS" firstAttribute="leading" secondItem="8ts-AD-Nji" secondAttribute="leading" id="MQA-gv-h23"/>
+                            <constraint firstItem="8ts-AD-Nji" firstAttribute="leading" secondItem="mHc-Ql-Lxr" secondAttribute="leading" id="nYE-iY-IJd"/>
+                            <constraint firstItem="bzp-hR-xcS" firstAttribute="bottom" secondItem="8ts-AD-Nji" secondAttribute="bottom" id="rGK-Z6-lyR"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityView" destination="atx-WS-hdo" id="IOM-oW-d7N"/>
-                        <outlet property="photoImageView" destination="tTR-sF-Btv" id="hee-NT-iF9"/>
+                        <outlet property="activityView" destination="s8J-nj-kmn" id="dCm-t3-suF"/>
+                        <outlet property="photoImageView" destination="Prg-n7-KhW" id="FOe-Nq-u8i"/>
                         <outlet property="photoInfoLabel" destination="Cbp-Sd-CDN" id="g6g-hC-dRr"/>
+                        <outlet property="scrollView" destination="bzp-hR-xcS" id="3ID-B6-X1k"/>
                         <outlet property="textBackground" destination="8ts-AD-Nji" id="mm9-ZT-dLC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGC-1C-lKM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1355" y="-244"/>
+            <point key="canvasLocation" x="1354.8837209302326" y="-244.63519313304724"/>
         </scene>
     </scenes>
     <resources>
         <image name="Screenshot_2024-04-20_at_13.41.43-removebg-preview-2" width="561" height="445"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
