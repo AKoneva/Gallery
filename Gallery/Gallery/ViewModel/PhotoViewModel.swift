@@ -7,16 +7,32 @@
 
 import Foundation
 import Combine
-// TO DO: fix pagination for curated photos, add enum and refactor code.
+
+enum PhotoType {
+    case curated
+    case search
+}
+
 class PhotoViewModel {
+    @Published var photoType: PhotoType = .curated {
+        didSet {
+            resetCurrentPageAndPhotos()
+        }
+    }
+
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
-    @Published var currentPage: Int = 1
-    @Published var query: String? = nil
+    var query: String? = nil
     var totalPages: Int = 1
     var hasNextPage: Bool = false
     var hasPrevPage: Bool = false
     var totalResults: Int = 1
+    var currentPage: Int = 1
+
+    private func resetCurrentPageAndPhotos() {
+        currentPage = 1
+        photos = []
+    }
 }
 
 extension PhotoViewModel {
@@ -25,12 +41,7 @@ extension PhotoViewModel {
             switch result {
                 case .success(let curatedPhotos):
                     self.errorMessage = nil
-                    if curatedPhotos.page == 1 {
-                        self.photos = []
-                        self.photos = curatedPhotos.photos
-                    } else {
-                        self.photos.append(contentsOf: curatedPhotos.photos)
-                    }
+                    self.photos.append(contentsOf: curatedPhotos.photos)
                     self.currentPage = curatedPhotos.page
                     self.hasNextPage = curatedPhotos.nextPage != nil
                     self.hasPrevPage = curatedPhotos.prevPage != nil
@@ -41,26 +52,6 @@ extension PhotoViewModel {
         }
     }
 
-    func fetchNextPage(isSearch: Bool = false) {
-        if isSearch {
-            if photos.count < totalResults {
-                currentPage += 1
-                searchPhotos()
-            } else { return }
-        } else {
-            guard hasNextPage else { return }
-            
-            currentPage += 1
-            fetchCuratedPhotos()
-        }
-    }
-
-    func fetchPrevPage() {
-        guard hasPrevPage else { return }
-        currentPage -= 1
-        fetchCuratedPhotos()
-    }
-
     func searchPhotos() {
         guard let query = query else { return }
 
@@ -68,13 +59,7 @@ extension PhotoViewModel {
             switch searchResult {
                 case .success(let response):
                     self.errorMessage = nil
-                    if response.page == 1 {
-                        self.photos = []
-                        self.photos = response.photos
-                    } else {
-                        self.photos.append(contentsOf: response.photos)
-                        print(self.photos.count)
-                    }
+                    self.photos.append(contentsOf: response.photos)
                     self.totalResults = response.totalResults
                 case .failure(let error):
                     self.errorMessage = "Error fetching curated photos: \(error)"
@@ -82,4 +67,33 @@ extension PhotoViewModel {
             }
         }
     }
+
+    func fetchNextPage() {
+        switch photoType {
+            case .curated:
+                guard hasNextPage else { return }
+
+                currentPage += 1
+                fetchCuratedPhotos()
+            case .search:
+                if photos.count < totalResults {
+                    currentPage += 1
+                    searchPhotos()
+                } else { return }
+        }
+    }
+
+    func fetchPrevPage() {
+        switch photoType {
+            case .curated:
+                guard hasPrevPage else { return }
+                currentPage -= 1
+                fetchCuratedPhotos()
+            case .search:
+                guard currentPage > 1 else { return }
+                currentPage -= 1
+                searchPhotos()
+        }
+    }
+
 }

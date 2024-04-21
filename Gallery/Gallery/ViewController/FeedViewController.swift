@@ -58,6 +58,14 @@ extension FeedViewController {
                 self?.collectionView.reloadData()
             }
             .store(in: &cancellables)
+
+        viewModel.$photoType
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let topOffset = CGPoint(x: 0, y: -(self?.collectionView.contentInset.top ?? 0))
+                self?.collectionView.setContentOffset(topOffset, animated: true)
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -101,11 +109,7 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == viewModel.photos.count - 1 {
-            if viewModel.query != nil {
-                viewModel.fetchNextPage(isSearch: true)
-            } else {
                 viewModel.fetchNextPage()
-            }
         }
     }
 }
@@ -133,20 +137,14 @@ extension FeedViewController: UISearchBarDelegate {
     }
 
     private func prepareSearchPhotos(query: String) {
-        let topOffset = CGPoint(x: 0, y: -collectionView.contentInset.top)
-        collectionView.setContentOffset(topOffset, animated: true)
-
+        viewModel.photoType = .search
         viewModel.query = query
-        viewModel.currentPage = 1
         viewModel.searchPhotos()
     }
 
     private func resetSearchPhotos() {
-        let topOffset = CGPoint(x: 0, y: -collectionView.contentInset.top)
-        collectionView.setContentOffset(topOffset, animated: true)
-
+        viewModel.photoType = .curated
         viewModel.query = nil
-        viewModel.currentPage = 1
         viewModel.fetchCuratedPhotos()
     }
 }
