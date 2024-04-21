@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-
+// TO DO: fix pagination for curated photos, add enum and refactor code.
 class PhotoViewModel {
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
@@ -27,9 +27,9 @@ extension PhotoViewModel {
                     self.errorMessage = nil
                     if curatedPhotos.page == 1 {
                         self.photos = []
-                        self.photos.append(contentsOf: curatedPhotos.photos)
-                    } else {
                         self.photos = curatedPhotos.photos
+                    } else {
+                        self.photos.append(contentsOf: curatedPhotos.photos)
                     }
                     self.currentPage = curatedPhotos.page
                     self.hasNextPage = curatedPhotos.nextPage != nil
@@ -82,5 +82,4 @@ extension PhotoViewModel {
             }
         }
     }
-    
 }

@@ -52,20 +52,20 @@ extension FeedViewController {
     }
 
     private func bindViewModel() {
-           viewModel.$photos
-               .receive(on: DispatchQueue.main)
-               .sink { [weak self] _ in
-                   self?.collectionView.reloadData()
-               }
-               .store(in: &cancellables)
-       }
+        viewModel.$photos
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.collectionView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.photos.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else {
             return UICollectionViewCell()
@@ -100,14 +100,14 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            if indexPath.item == viewModel.photos.count - 1 {
-                if viewModel.query != nil {
-                    viewModel.fetchNextPage(isSearch: true)
-                } else {
-                    viewModel.fetchNextPage()
-                }
+        if indexPath.item == viewModel.photos.count - 1 {
+            if viewModel.query != nil {
+                viewModel.fetchNextPage(isSearch: true)
+            } else {
+                viewModel.fetchNextPage()
             }
         }
+    }
 }
 
 extension FeedViewController: UISearchBarDelegate {
@@ -116,27 +116,37 @@ extension FeedViewController: UISearchBarDelegate {
             searchBar.text = nil
             searchBar.resignFirstResponder()
 
-            resetSearch()
-            viewModel.fetchCuratedPhotos()
+            resetSearchPhotos()
             return
         }
 
         searchBar.resignFirstResponder()
 
-        viewModel.query = query
-        viewModel.searchPhotos()
+        prepareSearchPhotos(query: query)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        resetSearch()
-        viewModel.fetchCuratedPhotos()
+        resetSearchPhotos()
     }
 
-   private func resetSearch() {
-       viewModel.query = nil
-       viewModel.currentPage = 1
+    private func prepareSearchPhotos(query: String) {
+        let topOffset = CGPoint(x: 0, y: -collectionView.contentInset.top)
+        collectionView.setContentOffset(topOffset, animated: true)
+
+        viewModel.query = query
+        viewModel.currentPage = 1
+        viewModel.searchPhotos()
+    }
+
+    private func resetSearchPhotos() {
+        let topOffset = CGPoint(x: 0, y: -collectionView.contentInset.top)
+        collectionView.setContentOffset(topOffset, animated: true)
+
+        viewModel.query = nil
+        viewModel.currentPage = 1
+        viewModel.fetchCuratedPhotos()
     }
 }
