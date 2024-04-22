@@ -12,10 +12,13 @@ enum NetworkError: Error {
     case invalidURL
     case invalidResponse
     case decodingError
+    case timeout
+    case noInternetConnection
     case serverError(String)
+    case unknownError
 
     var errorMessage: String {
-            switch self {
+        switch self {
             case .invalidURL:
                 return "Invalid URL. Please try again later."
             case .invalidResponse:
@@ -24,8 +27,14 @@ enum NetworkError: Error {
                 return "Error decoding the response. Please try again later."
             case .serverError(let message):
                 return "Server error: \(message)"
-            }
+            case .timeout:
+                return "Request timed out. Please try again later."
+            case .noInternetConnection:
+                return "No internet connection. Please check your network settings."
+            case .unknownError:
+                return "An unknown error occurred. Please try again later."
         }
+    }
 }
 
 // MARK: - NetworkManager Class
@@ -38,24 +47,27 @@ class NetworkManager {
     private init() {}
 
     // MARK: - Public Methods
-    func fetchCuratedPhotos(page: Int = 1, perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
+    func fetchCuratedPhotos(page: Int = 1,locale: String = "en-US", perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/curated"
-        let parameters: [String: Any] = ["page": page, "per_page": perPage]
+        let parameters: [String: Any] = ["page": page, "locale": locale, "per_page": perPage]
         let headers: HTTPHeaders = ["Authorization": apiKey]
 
         requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
 
-    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, NetworkError>) -> Void) {
+    func searchPhotos(query: String, locale: String = "en-US", page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/search"
-        let parameters: [String: Any] = ["query": query, "page": page, "per_page": perPage]
+        let parameters: [String: Any] = ["query": query,
+                                         "locale": locale,
+                                         "page": page,
+                                         "per_page": perPage]
         let headers: HTTPHeaders = ["Authorization": apiKey]
 
         requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
-    
+
     // MARK: - Private Methods
-    private func requestDecodable<T: Decodable>(endpoint: String, parameters: Parameters?, headers: HTTPHeaders?, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    private func requestDecodable<T: Codable>(endpoint: String, parameters: Parameters?, headers: HTTPHeaders?, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completion(.failure(.invalidURL))
             return
@@ -65,14 +77,38 @@ class NetworkManager {
             .validate()
             .responseDecodable(of: T.self) { response in
                 switch response.result {
-                    case .success(let result):
-                        completion(.success(result))
-                    case .failure(let error):
-                        if let statusCode = response.response?.statusCode {
-                            completion(.failure(.serverError("Server error with status code: \(statusCode)")))
-                        } else {
-                            completion(.failure(.decodingError))
+                case .success(let result):
+                    print(result)
+                    completion(.success(result))
+                case .failure(let error):
+                    if let afError = error as? AFError {
+                        switch afError {
+                        case .responseValidationFailed(let reason):
+                            switch reason {
+                            case .unacceptableStatusCode(_):
+                                completion(.failure(.invalidResponse))
+                            default:
+                                completion(.failure(.unknownError))
+                            }
+                        default:
+                            completion(.failure(.unknownError))
                         }
+                    } else {
+                        // Handle URLError
+                        let nsError = error as NSError
+                        if nsError.domain == NSURLErrorDomain {
+                            switch nsError.code {
+                            case NSURLErrorTimedOut:
+                                completion(.failure(.timeout))
+                            case NSURLErrorNotConnectedToInternet:
+                                completion(.failure(.noInternetConnection))
+                            default:
+                                completion(.failure(.unknownError))
+                            }
+                        } else {
+                            completion(.failure(.unknownError))
+                        }
+                    }
                 }
             }
     }

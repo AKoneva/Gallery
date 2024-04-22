@@ -9,10 +9,12 @@ import UIKit
 import Kingfisher
 
 class PhotoCollectionViewCell: UICollectionViewCell {
+    // MARK: - Outlets
     @IBOutlet weak var photoInfoLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var textBackground: UIView!
 
+    // MARK: - Lifecycle Methods
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -20,6 +22,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         textBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
+    // MARK: - Public Methods
     func configure(with photo: Photo) {
         photoInfoLabel.text = photo.alt
         photoImageView.kf.setImage(with: photo.src.medium)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchResponse: Decodable {
+struct SearchResponse: Codable {
     let totalResults: Int
     let page: Int
     let perPage: Int

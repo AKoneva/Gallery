@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CuratedPhotosResponse: Decodable {
+struct CuratedPhotosResponse: Codable {
     let page: Int
     let perPage: Int
     let totalResults: Int

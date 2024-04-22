@@ -131,10 +131,10 @@
 		048412512BD376E00063393E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				048412692BD385650063393E /* CuratedPhotosResponse.swift */,
 				048412612BD385000063393E /* SearchResponse.swift */,
 				048412632BD385140063393E /* Photo.swift */,
 				048412672BD385420063393E /* PhotoSource.swift */,
-				048412692BD385650063393E /* CuratedPhotosResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

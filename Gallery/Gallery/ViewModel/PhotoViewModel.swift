@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-//ADD localization, fix preview
+
 // MARK: - PhotoType Enum
 enum PhotoType {
     case curated
@@ -17,12 +17,7 @@ enum PhotoType {
 // MARK: - PhotoViewModel Class
 class PhotoViewModel {
     // MARK: - Published Properties
-    @Published var photoType: PhotoType = .curated {
-        didSet {
-            resetCurrentPageAndPhotos()
-        }
-    }
-
+    @Published var photoType: PhotoType = .curated
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
@@ -42,8 +37,11 @@ class PhotoViewModel {
     }
 
     // MARK: - Helper Methods
-    private func resetCurrentPageAndPhotos() {
+    private func resetParameters() {
+        isLoading = false
+        errorMessage = nil
         currentPage = 1
+        totalResults = 0
         photos = []
     }
 }
@@ -51,13 +49,17 @@ class PhotoViewModel {
 // MARK: - Fetch Methods
 extension PhotoViewModel {
     func fetchNextPage() {
-        currentPage += 1
-        fetchPhotos()
+        if hasNextPage {
+            currentPage += 1
+            fetchPhotos()
+        }
     }
 
     func fetchPrevPage() {
-        currentPage -= 1
-        fetchPhotos()
+        if hasPrevPage {
+            currentPage -= 1
+            fetchPhotos()
+        }
     }
 
     func fetchPhotos() {
@@ -97,19 +99,15 @@ extension PhotoViewModel {
 
     // MARK: - Response Handlers
     private func handleCuratedResponse(_ response: CuratedPhotosResponse) {
-        isLoading = false
-        errorMessage = nil
+        resetParameters()
         photos.append(contentsOf: response.photos)
         totalResults = response.totalResults
-        print("Total Results: \(response.totalResults)\nPage: \(response.page)\nPhotos: \(response.photos)")
     }
 
     private func handleSearchResponse(_ response: SearchResponse) {
-        isLoading = false
-        errorMessage = nil
+        resetParameters()
         photos.append(contentsOf: response.photos)
         totalResults = response.totalResults
-        print("Total Results: \(response.totalResults)\nPage: \(response.page)\nPhotos: \(response.photos)")
         if photos.isEmpty {
             errorMessage = "No result found"
         }

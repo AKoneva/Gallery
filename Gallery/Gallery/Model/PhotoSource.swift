@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoSource: Decodable {
+struct PhotoSource: Codable {
     let original: URL
     let large2x: URL
     let large: URL
