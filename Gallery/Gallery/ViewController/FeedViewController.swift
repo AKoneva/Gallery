@@ -9,69 +9,69 @@ import UIKit
 import Combine
 
 class FeedViewController: UIViewController {
+    // MARK: - IBOutlets
     @IBOutlet weak var collectionView: UICollectionView!
-
     @IBOutlet weak var activityView: UIActivityIndicatorView!
-    
+
+    // MARK: - Properties
     private var viewModel = PhotoViewModel()
     private var cancellables: Set<AnyCancellable> = []
 
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionViewSetUp()
+        collectionViewConfiguration()
     }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-}
 
-extension FeedViewController {
-    func collectionViewSetUp() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
+    // MARK: - UI config
+        func collectionViewConfiguration() {
+            collectionView.dataSource = self
+            collectionView.delegate = self
+            collectionLayoutConfiguration()
 
-        collectionLayoutSetUp()
-        bindViewModel()
+            bindViewModel()
+            showActivityView()
+            viewModel.fetchPhotos()
+        }
 
-        showActivityView()
-        viewModel.fetchPhotos()
-    }
+        func collectionLayoutConfiguration() {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            layout.minimumLineSpacing = 8
+            layout.minimumInteritemSpacing = 4
+            collectionView.setCollectionViewLayout(layout, animated: true)
 
-    func collectionLayoutSetUp() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 4
-        collectionView
-            .setCollectionViewLayout(layout, animated: true)
+            NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
-    }
+        @objc func orientationDidChange() {
+            collectionView.reloadData()
+        }
 
-    @objc func orientationDidChange() {
-        collectionView.reloadData()
-    }
+        // MARK: - ViewModel Binding
+        func bindViewModel() {
+            viewModel.$photos
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.hideActivityView()
+                    self?.collectionView.reloadData()
+                }
+                .store(in: &cancellables)
 
-    private func bindViewModel() {
-        viewModel.$photos
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.hideActivityView()
-                self?.collectionView.reloadData()
-            }
-            .store(in: &cancellables)
+            viewModel.$photoType
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    let topOffset = CGPoint(x: 0, y: -(self?.collectionView.contentInset.top ?? 0))
+                    self?.collectionView.setContentOffset(topOffset, animated: true)
+                }
+                .store(in: &cancellables)
 
-        viewModel.$photoType
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                let topOffset = CGPoint(x: 0, y: -(self?.collectionView.contentInset.top ?? 0))
-                self?.collectionView.setContentOffset(topOffset, animated: true)
-            }
-            .store(in: &cancellables)
-
-        viewModel.$errorMessage
+            viewModel.$errorMessage
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
                 .sink { [weak self] errorMessage in
@@ -79,25 +79,28 @@ extension FeedViewController {
                     self?.showErrorAlert(message: errorMessage)
                 }
                 .store(in: &cancellables)
-    }
+        }
 
-    private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
+    // MARK: - Alert
+        func showErrorAlert(message: String) {
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
 
-    private func showActivityView() {
-        activityView.isHidden = false
-        activityView.startAnimating()
-    }
+    // MARK: - Activity Indicator
+        func showActivityView() {
+            activityView.isHidden = false
+            activityView.startAnimating()
+        }
 
-    private func hideActivityView() {
-        activityView.isHidden = false
-        activityView.stopAnimating()
-    }
+        func hideActivityView() {
+            activityView.isHidden = true
+            activityView.stopAnimating()
+        }
 }
 
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.photos.count
@@ -143,13 +146,11 @@ extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension FeedViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !query.isEmpty else {
-            searchBar.text = nil
-            searchBar.resignFirstResponder()
-
-            resetSearchPhotos()
+            searchBarCancelButtonClicked(searchBar)
             return
         }
 

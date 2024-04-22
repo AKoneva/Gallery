@@ -7,6 +7,7 @@
 import Foundation
 import Alamofire
 
+// MARK: - NetworkError Enum
 enum NetworkError: Error {
     case invalidURL
     case invalidResponse
@@ -27,6 +28,7 @@ enum NetworkError: Error {
         }
 }
 
+// MARK: - NetworkManager Class
 class NetworkManager {
     static let shared = NetworkManager()
 
@@ -35,6 +37,7 @@ class NetworkManager {
 
     private init() {}
 
+    // MARK: - Public Methods
     func fetchCuratedPhotos(page: Int = 1, perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/curated"
         let parameters: [String: Any] = ["page": page, "per_page": perPage]
@@ -50,7 +53,8 @@ class NetworkManager {
 
         requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
-
+    
+    // MARK: - Private Methods
     private func requestDecodable<T: Decodable>(endpoint: String, parameters: Parameters?, headers: HTTPHeaders?, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completion(.failure(.invalidURL))

@@ -9,31 +9,31 @@ import UIKit
 import Kingfisher
 
 class PreviewViewController: UIViewController {
+    // MARK: - IBOutlets
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var photoInfoLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var textBackground: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
+
+    // MARK: - Properties
     var photo: Photo?
 
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUpZooming()
-        configureUI()
+        scrollViewConfiguration()
+        uiConfiguration()
     }
 
-    func setUpZooming() {
+    // MARK: - UI Setup
+    private func scrollViewConfiguration() {
         scrollView.delegate = self
-        scrollView.maximumZoomScale = 4.0
-        let recognizer = UITapGestureRecognizer(target: self,
-                                                action: #selector(onDoubleTap(_:)))
-        recognizer.numberOfTapsRequired = 2
-        scrollView.addGestureRecognizer(recognizer)
-
+        scrollView.maximumZoomScale = 6
     }
 
-    func configureUI() {
+    private func uiConfiguration() {
         guard let name = photo?.alt, let photographer = photo?.photographer, let url = photo?.src.original else { return }
 
         photoInfoLabel.text = name + "\nAuthor: " + photographer
@@ -42,9 +42,9 @@ class PreviewViewController: UIViewController {
         showActivityView()
         photoImageView.kf.setImage(with: url) { result in
             switch result {
-                case .success(let image):
+                case .success(_):
                     self.hideActivityView()
-                case .failure(let error):
+                case .failure(_):
                     self.hideActivityView()
                     let alert = UIAlertController(title: "Error", message: "Couldn`t load photot. Try again later", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -53,6 +53,7 @@ class PreviewViewController: UIViewController {
         }
     }
 
+    // MARK: - Activity Indicator
     private func showActivityView() {
         activityView.isHidden = false
         activityView.startAnimating()
@@ -62,34 +63,20 @@ class PreviewViewController: UIViewController {
         activityView.isHidden = false
         activityView.stopAnimating()
     }
-
-    @objc func onDoubleTap(_ sender: UITapGestureRecognizer) {
-            let scale = min(scrollView.zoomScale * 2, scrollView.maximumZoomScale)
-
-            if scale != scrollView.zoomScale {
-                let tapPoint = sender.location(in: photoImageView)
-                let size = CGSize(width: scrollView.frame.size.width / scale,
-                                  height: scrollView.frame.size.height / scale)
-                let origin = CGPoint(x: tapPoint.x - size.width / 2,
-                                     y: tapPoint.y - size.height / 2)
-                scrollView.zoom(to: CGRect(origin: origin, size: size), animated: true)
-            }
-            else {
-                scrollView.zoom(to: scrollView.frame, animated: true)
-            }
-        }
 }
 
+// MARK: - UIScrollViewDelegate
 extension PreviewViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-          return photoImageView
-      }
+        return photoImageView
+    }
+
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        // Show navigation bar when zooming ends
         if scrollView.zoomScale == scrollView.minimumZoomScale {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
+
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }

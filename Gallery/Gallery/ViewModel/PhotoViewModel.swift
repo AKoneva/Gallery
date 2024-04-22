@@ -7,13 +7,16 @@
 
 import Foundation
 import Combine
-
+//ADD localization, fix preview
+// MARK: - PhotoType Enum
 enum PhotoType {
     case curated
     case search
 }
 
+// MARK: - PhotoViewModel Class
 class PhotoViewModel {
+    // MARK: - Published Properties
     @Published var photoType: PhotoType = .curated {
         didSet {
             resetCurrentPageAndPhotos()
@@ -23,10 +26,13 @@ class PhotoViewModel {
     @Published var photos: [Photo] = []
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
+
+    // MARK: - Other Properties
     var query: String? = nil
     var totalResults: Int = 1
     var currentPage: Int = 1
 
+    // MARK: - Computed Properties
     private var hasNextPage: Bool {
         return photos.count < totalResults
     }
@@ -35,12 +41,14 @@ class PhotoViewModel {
         return currentPage > 1
     }
 
+    // MARK: - Helper Methods
     private func resetCurrentPageAndPhotos() {
         currentPage = 1
         photos = []
     }
 }
 
+// MARK: - Fetch Methods
 extension PhotoViewModel {
     func fetchNextPage() {
         currentPage += 1
@@ -62,6 +70,7 @@ extension PhotoViewModel {
         }
     }
 
+    // MARK: - Network Requests
     private func fetchCuratedPhotos() {
         NetworkManager.shared.fetchCuratedPhotos(page: currentPage) { result in
             switch result {
@@ -86,6 +95,7 @@ extension PhotoViewModel {
         }
     }
 
+    // MARK: - Response Handlers
     private func handleCuratedResponse(_ response: CuratedPhotosResponse) {
         isLoading = false
         errorMessage = nil
@@ -100,6 +110,9 @@ extension PhotoViewModel {
         photos.append(contentsOf: response.photos)
         totalResults = response.totalResults
         print("Total Results: \(response.totalResults)\nPage: \(response.page)\nPhotos: \(response.photos)")
+        if photos.isEmpty {
+            errorMessage = "No result found"
+        }
     }
 
     private func handleNetworkError(_ error: NetworkError) {
