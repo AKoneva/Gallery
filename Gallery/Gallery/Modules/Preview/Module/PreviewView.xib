@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="View">
+            <connections>
+                <outlet property="activityView" destination="Med-3A-Hvh" id="ric-6y-j3L"/>
+                <outlet property="imageView" destination="GsL-QV-Gqd" id="0he-Is-Dja"/>
+                <outlet property="infoLabel" destination="pIF-SB-dqC" id="327-bl-VPV"/>
+                <outlet property="scrollView" destination="oCF-Ry-oTN" id="j0L-qf-Fng"/>
+                <outlet property="textBackground" destination="n7a-9u-LWD" id="dQx-fz-BE7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="scrollableAxes" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="oCF-Ry-oTN">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GsL-QV-Gqd">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="leading" secondItem="TkL-qD-L0X" secondAttribute="leading" id="0kn-Ov-q6m"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="width" secondItem="Fl3-rV-7um" secondAttribute="width" id="AHd-rX-1pZ"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="bottom" secondItem="TkL-qD-L0X" secondAttribute="bottom" id="Sje-ld-x6w"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="centerY" secondItem="Fl3-rV-7um" secondAttribute="centerY" id="WTt-Of-zYF"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="trailing" secondItem="TkL-qD-L0X" secondAttribute="trailing" id="Wch-Ow-qhw"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="top" secondItem="TkL-qD-L0X" secondAttribute="top" id="WfH-uZ-rbr"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="centerX" secondItem="oCF-Ry-oTN" secondAttribute="centerX" id="X6K-cA-pV7"/>
+                        <constraint firstItem="GsL-QV-Gqd" firstAttribute="height" secondItem="Fl3-rV-7um" secondAttribute="height" id="sps-bZ-9z2"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="TkL-qD-L0X"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="Fl3-rV-7um"/>
+                </scrollView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Med-3A-Hvh">
+                    <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                    <color key="color" name="AccentColor"/>
+                </activityIndicatorView>
+                <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7a-9u-LWD">
+                    <rect key="frame" x="0.0" y="732" width="393" height="120"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIF-SB-dqC">
+                            <rect key="frame" x="20" y="20" width="353" height="80"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="120" id="4yI-Cc-DpC"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="n7a-9u-LWD" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="2EF-H8-ecG"/>
+                <constraint firstAttribute="bottom" secondItem="n7a-9u-LWD" secondAttribute="bottom" id="JT9-It-j1P"/>
+                <constraint firstAttribute="bottom" secondItem="oCF-Ry-oTN" secondAttribute="bottom" id="MMe-7q-l4S"/>
+                <constraint firstItem="Med-3A-Hvh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Pkq-tb-plr"/>
+                <constraint firstItem="oCF-Ry-oTN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="RLE-fO-hfv"/>
+                <constraint firstItem="oCF-Ry-oTN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="UHQ-gt-p7X"/>
+                <constraint firstItem="oCF-Ry-oTN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="WyA-kE-TYb"/>
+                <constraint firstItem="n7a-9u-LWD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Xa8-Se-hvF"/>
+                <constraint firstItem="oCF-Ry-oTN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="c3U-Hs-ywl"/>
+                <constraint firstItem="Med-3A-Hvh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="dnD-ls-apy"/>
+                <constraint firstItem="oCF-Ry-oTN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hx0-zH-AK8"/>
+                <constraint firstItem="oCF-Ry-oTN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="vWo-4f-dC0"/>
+                <constraint firstAttribute="bottom" secondItem="oCF-Ry-oTN" secondAttribute="bottom" id="wBm-gE-FUa"/>
+            </constraints>
+            <point key="canvasLocation" x="75.572519083969468" y="20.422535211267608"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

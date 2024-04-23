@@ -66,6 +66,16 @@ class NetworkManager {
         requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
 
+    func fetchPhoto(id: Int, locale: String = "en-US", completion: @escaping (Result<Photo, NetworkError>) -> Void) {
+        let endpoint = "\(baseURL)/photos/\(id)"
+           let parameters: [String: Any] = ["locale": locale]
+
+
+        let headers: HTTPHeaders = ["Authorization": apiKey]
+
+        requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
+    }
+
     // MARK: - Private Methods
     private func requestDecodable<T: Codable>(endpoint: String, parameters: Parameters?, headers: HTTPHeaders?, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint) else {

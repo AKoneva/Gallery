@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedView" customModule="Gallery" customModuleProvider="target">
+            <connections>
+                <outlet property="activityView" destination="jSH-DR-3py" id="IMm-cq-Gpw"/>
+                <outlet property="collectionView" destination="70M-3I-pFM" id="FGX-Tm-1AW"/>
+                <outlet property="searchBar" destination="5gS-X4-bho" id="moT-e2-201"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5gS-X4-bho">
+                    <rect key="frame" x="0.0" y="59" width="393" height="56"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="yd2-78-Zem"/>
+                    </connections>
+                </searchBar>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="70M-3I-pFM">
+                    <rect key="frame" x="0.0" y="115" width="393" height="737"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gUZ-Ze-Kny">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="jSH-DR-3py">
+                    <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                    <color key="color" name="AccentColor"/>
+                </activityIndicatorView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="70M-3I-pFM" secondAttribute="bottom" id="0u1-v9-UI5"/>
+                <constraint firstItem="5gS-X4-bho" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="7z9-gL-u5R"/>
+                <constraint firstItem="5gS-X4-bho" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ENT-Ux-wtr"/>
+                <constraint firstItem="70M-3I-pFM" firstAttribute="top" secondItem="5gS-X4-bho" secondAttribute="bottom" id="G1b-l4-JxL"/>
+                <constraint firstItem="jSH-DR-3py" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="NLo-Nl-JFl"/>
+                <constraint firstItem="5gS-X4-bho" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Wc7-fw-nnv"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="70M-3I-pFM" secondAttribute="trailing" id="egO-v8-XeV"/>
+                <constraint firstItem="70M-3I-pFM" firstAttribute="top" secondItem="5gS-X4-bho" secondAttribute="bottom" id="hxe-eL-aSl"/>
+                <constraint firstItem="70M-3I-pFM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="kNX-A6-KVK"/>
+                <constraint firstItem="jSH-DR-3py" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="y0f-Te-vsn"/>
+            </constraints>
+            <point key="canvasLocation" x="15" y="20"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
