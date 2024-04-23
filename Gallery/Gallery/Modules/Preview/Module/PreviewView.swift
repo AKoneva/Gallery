@@ -57,7 +57,7 @@ extension Module {
         private func configurateUI() {
             guard let photo = viewModel.photo else { return }
 
-            infoLabel.text = photo.alt + NSLocalizedString("\nAuthor: ", comment: "")  + photo.photographer
+            infoLabel.text = photo.alt + "\n" + NSLocalizedString("\nAuthor: ", comment: "")  + photo.photographer
             textBackground.layer.cornerRadius = 20
 
             showActivityView()
