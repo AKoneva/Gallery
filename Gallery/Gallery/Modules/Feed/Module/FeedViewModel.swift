@@ -126,7 +126,7 @@ extension ViewModel {
 
     private func handleNetworkError(_ error: NetworkError) {
         isLoading = false
-        errorMessage = error.errorMessage
+        errorMessage = NSLocalizedString(error.errorMessage, comment: "")
         print(errorMessage ?? NSLocalizedString("An unknown error occurred. Please try again later.", comment: ""))
     }
 }
