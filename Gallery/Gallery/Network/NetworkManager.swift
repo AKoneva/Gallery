@@ -47,18 +47,19 @@ class NetworkManager {
     private init() {}
 
     // MARK: - Public Methods
-    func fetchCuratedPhotos(page: Int = 1,locale: String = "en-US", perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
+    func fetchCuratedPhotos(page: Int = 1, perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/curated"
-        let parameters: [String: Any] = ["page": page, "locale": locale, "per_page": perPage]
+        let parameters: [String: Any] = ["page": page, "locale": getLocale(), "per_page": perPage]
         let headers: HTTPHeaders = ["Authorization": apiKey]
 
         requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
 
-    func searchPhotos(query: String, locale: String = "en-US", page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, NetworkError>) -> Void) {
+    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, NetworkError>) -> Void) {
+        
         let endpoint = "\(baseURL)/search"
         let parameters: [String: Any] = ["query": query,
-                                         "locale": locale,
+                                         "locale": getLocale(),
                                          "page": page,
                                          "per_page": perPage]
         let headers: HTTPHeaders = ["Authorization": apiKey]
@@ -68,7 +69,7 @@ class NetworkManager {
 
     func fetchPhoto(id: Int, locale: String = "en-US", completion: @escaping (Result<Photo, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/photos/\(id)"
-           let parameters: [String: Any] = ["locale": locale]
+           let parameters: [String: Any] = ["locale": getLocale()]
 
 
         let headers: HTTPHeaders = ["Authorization": apiKey]
@@ -77,6 +78,16 @@ class NetworkManager {
     }
 
     // MARK: - Private Methods
+    private func getLocale() -> String {
+        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+        switch languageCode {
+            case "ja":
+                return "ja-JP"
+            default:
+                return "en-US"
+        }
+    }
+
     private func requestDecodable<T: Codable>(endpoint: String, parameters: Parameters?, headers: HTTPHeaders?, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completion(.failure(.invalidURL))

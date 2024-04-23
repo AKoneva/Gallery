@@ -90,7 +90,6 @@ extension ViewModel {
 
     private func searchPhotos() {
         guard let query = query else { return }
-
         NetworkManager.shared.searchPhotos(query: query, page: pagination.currentPage) { result in
             switch result {
                 case .success(let responce):
@@ -121,14 +120,14 @@ extension ViewModel {
         }
         pagination.totalResult = response.totalResults
         if photos.dataSource.isEmpty {
-            errorMessage = "No result found"
+            errorMessage = NSLocalizedString("No result found", comment: "")
         }
     }
 
     private func handleNetworkError(_ error: NetworkError) {
         isLoading = false
         errorMessage = error.errorMessage
-        print(errorMessage ?? "Unknown error")
+        print(errorMessage ?? NSLocalizedString("An unknown error occurred. Please try again later.", comment: ""))
     }
 }
 

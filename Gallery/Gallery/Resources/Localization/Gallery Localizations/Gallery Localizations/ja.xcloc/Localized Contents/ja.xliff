@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="Gallery/Resources/Localization/InfoPlist.xcstrings" source-language="en" target-language="ja" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.3" build-num="15E204a"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>AGallery</source>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>Gallery</source>
+        <note>Bundle name</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Gallery/Resources/Localization/Localizable.xcstrings" source-language="en" target-language="ja" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="15.3" build-num="15E204a"/>
+    </header>
+    <body>
+      <trans-unit id="&#10;/nAuthor: " xml:space="preserve">
+        <source>
+/nAuthor: </source>
+        <target state="translated">\n著者：</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="&#10;Author: " xml:space="preserve">
+        <source>
+Author: </source>
+        <target state="translated">\n著者：</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="An unknown error occurred. Please try again later." xml:space="preserve">
+        <source>An unknown error occurred. Please try again later.</source>
+        <target state="translated">不明なエラーが発生しました。後で再試行してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Couldn`t load photo. Try again later" xml:space="preserve">
+        <source>Couldn`t load photo. Try again later</source>
+        <target state="translated">写真を読み込めませんでした。後でもう一度試してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Couldnt load photo. Try again later" xml:space="preserve">
+        <source>Couldnt load photo. Try again later</source>
+        <target state="translated">写真を読み込めませんでした。後で再試行してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Error" xml:space="preserve">
+        <source>Error</source>
+        <target state="translated">エラー</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Error decoding the response. Please try again later." xml:space="preserve">
+        <source>Error decoding the response. Please try again later.</source>
+        <target state="translated">応答のデコードエラー。後で再試行してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Invalid URL. Please try again later." xml:space="preserve">
+        <source>Invalid URL. Please try again later.</source>
+        <target state="translated">無効なURLです。後で再試行してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Invalid URL. Please try again later.No internet connection. Please check your network settings." xml:space="preserve">
+        <source>Invalid URL. Please try again later.No internet connection. Please check your network settings.</source>
+        <target state="translated">インターネットに接続されていません。ネットワーク設定を確認してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Invalid response from the server. Please try again later." xml:space="preserve">
+        <source>Invalid response from the server. Please try again later.</source>
+        <target state="translated">サーバーからの無効な応答。後で再試行してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="No result found" xml:space="preserve">
+        <source>No result found</source>
+        <target state="translated">結果が見つかりませんでした。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="OK" xml:space="preserve">
+        <source>OK</source>
+        <target state="translated">はい</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Request timed out. Please try again later." xml:space="preserve">
+        <source>Request timed out. Please try again later.</source>
+        <target state="translated">リクエストのタイムアウト。後で再試行してください。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Server error: %@" xml:space="preserve">
+        <source>Server error: %@</source>
+        <target state="translated">サーバーエラー：%@。</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="\nAuthor:" xml:space="preserve">
+        <source>\nAuthor:</source>
+        <target state="translated">\n作者：</target>
+        <note/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

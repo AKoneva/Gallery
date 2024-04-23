@@ -1,0 +1,51 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "\n/nAuthor: " : {
+      "extractionState" : "stale"
+    },
+    "\nAuthor: " : {
+
+    },
+    "\\nAuthor:" : {
+      "extractionState" : "stale"
+    },
+    "An unknown error occurred. Please try again later." : {
+
+    },
+    "Couldn`t load photo. Try again later" : {
+      "extractionState" : "stale"
+    },
+    "Couldnt load photo. Try again later" : {
+
+    },
+    "Error" : {
+
+    },
+    "Error decoding the response. Please try again later." : {
+      "extractionState" : "stale"
+    },
+    "Invalid response from the server. Please try again later." : {
+      "extractionState" : "stale"
+    },
+    "Invalid URL. Please try again later." : {
+      "extractionState" : "stale"
+    },
+    "Invalid URL. Please try again later.No internet connection. Please check your network settings." : {
+      "extractionState" : "stale"
+    },
+    "No result found" : {
+
+    },
+    "OK" : {
+
+    },
+    "Request timed out. Please try again later." : {
+      "extractionState" : "stale"
+    },
+    "Server error: %@" : {
+      "extractionState" : "stale"
+    }
+  },
+  "version" : "1.0"
+}

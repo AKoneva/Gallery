@@ -1,0 +1,165 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "\n/nAuthor: " : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\\n著者："
+          }
+        }
+      }
+    },
+    "\nAuthor: " : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\\n著者："
+          }
+        }
+      }
+    },
+    "\\nAuthor:" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\\n作者："
+          }
+        }
+      }
+    },
+    "An unknown error occurred. Please try again later." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明なエラーが発生しました。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Couldn`t load photo. Try again later" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真を読み込めませんでした。後でもう一度試してください。"
+          }
+        }
+      }
+    },
+    "Couldnt load photo. Try again later" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真を読み込めませんでした。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー"
+          }
+        }
+      }
+    },
+    "Error decoding the response. Please try again later." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答のデコードエラー。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Invalid response from the server. Please try again later." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバーからの無効な応答。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Invalid URL. Please try again later." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無効なURLです。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Invalid URL. Please try again later.No internet connection. Please check your network settings." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インターネットに接続されていません。ネットワーク設定を確認してください。"
+          }
+        }
+      }
+    },
+    "No result found" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果が見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "はい"
+          }
+        }
+      }
+    },
+    "Request timed out. Please try again later." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リクエストのタイムアウト。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Server error: %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバーエラー：%@。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

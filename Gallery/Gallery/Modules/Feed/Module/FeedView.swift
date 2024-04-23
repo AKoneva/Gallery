@@ -92,8 +92,11 @@ extension Module {
 
         // MARK: - Alert
         func showErrorAlert(message: String) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
+                                          message: NSLocalizedString(message, comment: ""),
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                                          style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
 

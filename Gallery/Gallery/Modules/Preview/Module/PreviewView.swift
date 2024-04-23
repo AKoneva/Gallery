@@ -57,7 +57,7 @@ extension Module {
         private func configurateUI() {
             guard let photo = viewModel.photo else { return }
 
-            infoLabel.text = photo.alt + "\nAuthor: " + photo.photographer
+            infoLabel.text = photo.alt + NSLocalizedString("\nAuthor: ", comment: "")  + photo.photographer
             textBackground.layer.cornerRadius = 20
 
             showActivityView()
@@ -67,7 +67,7 @@ extension Module {
                         self.hideActivityView()
                     case .failure(_):
                         self.hideActivityView()
-                        self.viewModel.errorMessage = "Couldnt load photo. Try again later"
+                        self.viewModel.errorMessage = NSLocalizedString("Couldnt load photo. Try again later" , comment: "")
                 }
             }
         }
@@ -104,9 +104,12 @@ extension Module {
         }
 
         private func showErrorAlert(message: String) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
+                                          message: NSLocalizedString(message, comment: ""),
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), 
+                                          style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
 
         private func addDoubleTapGestureRecognizer() {

@@ -49,7 +49,7 @@ extension Module {
         private func handleNetworkError(_ error: NetworkError) {
             resetErrorAndLoading()
             errorMessage = error.errorMessage
-            print(errorMessage ?? "Unknown error")
+            print(errorMessage ?? NSLocalizedString("An unknown error occurred. Please try again later.", comment: ""))
         }
     }
 }

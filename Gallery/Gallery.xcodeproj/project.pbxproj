@@ -19,6 +19,7 @@
 		045C7E542BD6DD2D003BB4C6 /* PreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C7E532BD6DD2D003BB4C6 /* PreviewModel.swift */; };
 		045C7E5B2BD6F0C3003BB4C6 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C7E592BD6F0C3003BB4C6 /* PreviewView.swift */; };
 		045C7E5C2BD6F0C3003BB4C6 /* PreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045C7E5A2BD6F0C3003BB4C6 /* PreviewView.xib */; };
+		045C7E5F2BD7A113003BB4C6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 045C7E5E2BD7A113003BB4C6 /* Localizable.xcstrings */; };
 		048411D52BD202DC0063393E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048411D42BD202DC0063393E /* AppDelegate.swift */; };
 		048411D72BD202DC0063393E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048411D62BD202DC0063393E /* SceneDelegate.swift */; };
 		048411DE2BD202DE0063393E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048411DD2BD202DE0063393E /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		045C7E532BD6DD2D003BB4C6 /* PreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModel.swift; sourceTree = "<group>"; };
 		045C7E592BD6F0C3003BB4C6 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		045C7E5A2BD6F0C3003BB4C6 /* PreviewView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreviewView.xib; sourceTree = "<group>"; };
+		045C7E5E2BD7A113003BB4C6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Gallery/Resources/Localization/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		048411D12BD202DC0063393E /* Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048411D42BD202DC0063393E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048411D62BD202DC0063393E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 			path = Module;
 			sourceTree = "<group>";
 		};
+		045C7E5D2BD79E31003BB4C6 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				045C7E5E2BD7A113003BB4C6 /* Localizable.xcstrings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		048411C82BD202DC0063393E = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +193,7 @@
 		048412522BD376EE0063393E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				045C7E5D2BD79E31003BB4C6 /* Localization */,
 				048411DD2BD202DE0063393E /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -251,6 +262,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 048411C82BD202DC0063393E;
 			packageReferences = (
@@ -272,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				045C7E492BD6BEEE003BB4C6 /* PhotoCollectionCell.xib in Resources */,
+				045C7E5F2BD7A113003BB4C6 /* Localizable.xcstrings in Resources */,
 				045C7E5C2BD6F0C3003BB4C6 /* PreviewView.xib in Resources */,
 				048411DE2BD202DE0063393E /* Assets.xcassets in Resources */,
 				045C7E432BD68B8B003BB4C6 /* FeedView.xib in Resources */,
@@ -439,7 +452,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = AGallery;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = FeedView.xib;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -473,7 +486,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = AGallery;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = FeedView.xib;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
