@@ -108,7 +108,6 @@
       }
     },
     "No result found" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {

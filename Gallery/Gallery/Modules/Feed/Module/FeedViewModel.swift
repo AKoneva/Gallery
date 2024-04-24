@@ -108,6 +108,10 @@ extension ViewModel {
             photos.dataSource.append(photoModel)
         }
         pagination.totalResult = response.totalResults
+
+        if pagination.totalResult == 0 && photoType == .search {
+            errorMessage = NSLocalizedString("No result found", comment: "")
+        }
     }
 
     private func handleNetworkError(_ error: NetworkError) {
