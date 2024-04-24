@@ -12,15 +12,17 @@ private typealias View = Module.View
 
 extension Module {
     class View: UIViewController {
+        // MARK: - IBOutlets
+        @IBOutlet private weak var activityView: UIActivityIndicatorView!
+        @IBOutlet private weak var scrollView: UIScrollView!
+        @IBOutlet private weak var infoLabel: UILabel!
+        @IBOutlet private weak var textBackground: UIView!
+        @IBOutlet private weak var imageView: UIImageView!
 
-        @IBOutlet weak var activityView: UIActivityIndicatorView!
-        @IBOutlet weak var scrollView: UIScrollView!
-        @IBOutlet weak var infoLabel: UILabel!
-        @IBOutlet weak var textBackground: UIView!
-        @IBOutlet weak var imageView: UIImageView!
-
+        // MARK: - Properties
         private var viewModel: Module.ViewModel
 
+        // MARK: - View Lifecycle
         init(id: Int) {
             viewModel = Module.ViewModel(id: id)
             super.init(nibName: "PreviewView", bundle: nil)
@@ -30,15 +32,11 @@ extension Module {
             fatalError("init(coder:) has not been implemented")
         }
 
-
-        // MARK: - View Lifecycle
         override func viewDidLoad() {
             super.viewDidLoad()
 
             bindViewModel()
             configurateScrollView()
-//            addPinchGestureRecognizer()
-//            addDoubleTapGestureRecognizer()
         }
 
         // MARK: - UI Setup
@@ -46,19 +44,18 @@ extension Module {
             scrollView.delegate = self
             scrollView.contentSize = imageView.bounds.size
 
-            // Ensure imageView is centered within scrollView
-                let imageViewSize = imageView.bounds.size
-                let scrollViewSize = scrollView.bounds.size
-                let verticalInset = max(0, (scrollViewSize.height - imageViewSize.height) / 2)
-                let horizontalInset = max(0, (scrollViewSize.width - imageViewSize.width) / 2)
-                scrollView.contentInset = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
-
+            let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+            doubleTapGestureRecognizer.numberOfTapsRequired = 2
+            scrollView.addGestureRecognizer(doubleTapGestureRecognizer)
         }
+
         private func configurateUI() {
             guard let photo = viewModel.photo else { return }
 
-            infoLabel.text = photo.alt + "\n" + NSLocalizedString("\nAuthor: ", comment: "")  + photo.photographer
+            infoLabel.text = photo.alt + "\n" + NSLocalizedString("Author: ", comment: "")  + photo.photographer
+
             textBackground.layer.cornerRadius = 20
+            textBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
             showActivityView()
             imageView.kf.setImage(with: photo.url) { result in
@@ -103,51 +100,34 @@ extension Module {
             activityView.stopAnimating()
         }
 
+        // MARK: - Alert
         private func showErrorAlert(message: String) {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
                                           message: NSLocalizedString(message, comment: ""),
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), 
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
                                           style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
 
-        private func addDoubleTapGestureRecognizer() {
-            let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
-            doubleTapGesture.numberOfTapsRequired = 2
-            imageView.isUserInteractionEnabled = true
-            imageView.addGestureRecognizer(doubleTapGesture)
-        }
-
-        private func addPinchGestureRecognizer() {
-            let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
-            imageView.isUserInteractionEnabled = true
-            imageView.addGestureRecognizer(pinchGesture)
-        }
-
-        @objc private func handlePinchGesture(_ gestureRecognizer: UIPinchGestureRecognizer) {
-            guard let view = gestureRecognizer.view else { return }
-               if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
-                   let scale = gestureRecognizer.scale
-                   if scale > 1.0 {
-                       view.transform = view.transform.scaledBy(x: scale, y: scale)
-                       gestureRecognizer.scale = 1.0
-                   }
-               }
-        }
-
-        @objc private func handleDoubleTap(_ gestureRecognizer: UITapGestureRecognizer) {
-            guard let view = gestureRecognizer.view else { return }
-            if gestureRecognizer.state == .ended {
-                let scale: CGFloat = view.transform.a == 1.0 ? 2.0 : 1.0
-                UIView.animate(withDuration: 0.3) {
-                    view.transform = CGAffineTransform(scaleX: scale, y: scale)
-                }
+        @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
+            let scale = min(scrollView.zoomScale * 2, scrollView.maximumZoomScale)
+            if scale != scrollView.zoomScale {
+                let tapPoint = sender.location(in: imageView)
+                let size = CGSize(width: scrollView.frame.size.width / scale,
+                                  height: scrollView.frame.size.height / scale)
+                let origin = CGPoint(x: tapPoint.x - size.width / 2,
+                                     y: tapPoint.y - size.height / 2)
+                scrollView.zoom(to: CGRect(origin: origin, size: size), animated: true)
+            }
+            else {
+                scrollView.zoom(to: scrollView.frame, animated: true)
             }
         }
     }
 }
 
+// MARK: - UIScrollViewDelegate
 extension View: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView

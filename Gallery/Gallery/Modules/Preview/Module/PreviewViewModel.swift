@@ -13,19 +13,17 @@ private typealias ViewModel = Module.ViewModel
 
 extension Module {
     class ViewModel {
+        // MARK: - Published Properties
         @Published var photo: Model?
         @Published var errorMessage: String? = nil
         @Published var isLoading: Bool = false
 
+        // MARK: - Other Properties
         var cancellables: Set<AnyCancellable> = []
 
+        // MARK: - Initializer
         init(id: Int) {
             fetchPhoto(with: id)
-        }
-
-        private func resetErrorAndLoading() {
-            isLoading = false
-            errorMessage = nil
         }
 
         // MARK: - Fetch Methods
@@ -41,6 +39,7 @@ extension Module {
             }
         }
 
+        // MARK: - Response Handling Methods
         private func handlePhotoResponse(_ response: Photo) {
             resetErrorAndLoading()
             photo = Model(from: response)
@@ -50,6 +49,12 @@ extension Module {
             resetErrorAndLoading()
             errorMessage = error.errorMessage
             print(errorMessage ?? NSLocalizedString("An unknown error occurred. Please try again later.", comment: ""))
+        }
+
+        // MARK: - Private Methods
+        private func resetErrorAndLoading() {
+            isLoading = false
+            errorMessage = nil
         }
     }
 }

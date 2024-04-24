@@ -17,8 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: windowScene)
 
-        let navigationController = UINavigationController(rootViewController: Feed.View(nibName: "FeedView", bundle: nil))
-        navigationController.title = "AGallery"
+        let feedView = Feed.View(nibName: "FeedView", bundle: nil)
+        feedView.title = "AGallery"
+
+        let navigationController = UINavigationController(rootViewController: feedView)
 
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

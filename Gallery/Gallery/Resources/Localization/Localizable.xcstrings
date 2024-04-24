@@ -1,27 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "\n/nAuthor: " : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "\\n著者："
-          }
-        }
-      }
-    },
-    "\nAuthor: " : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "著者："
-          }
-        }
-      }
-    },
     "\\nAuthor:" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -39,6 +18,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不明なエラーが発生しました。後で再試行してください。"
+          }
+        }
+      }
+    },
+    "Author: " : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作者: "
           }
         }
       }
@@ -119,6 +108,7 @@
       }
     },
     "No result found" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {

@@ -4,6 +4,7 @@
 //
 //  Created by Анна Перехрест  on 2024/04/20.
 //
+
 import Foundation
 import Alamofire
 
@@ -47,7 +48,7 @@ class NetworkManager {
     private init() {}
 
     // MARK: - Public Methods
-    func fetchCuratedPhotos(page: Int = 1, perPage: Int = 50, completion: @escaping (Result<CuratedPhotosResponse, NetworkError>) -> Void) {
+    func fetchCuratedPhotos(page: Int = 1, perPage: Int = 50, completion: @escaping (Result<PhotoResponce, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/curated"
         let parameters: [String: Any] = ["page": page, "locale": getLocale(), "per_page": perPage]
         let headers: HTTPHeaders = ["Authorization": apiKey]
@@ -55,8 +56,8 @@ class NetworkManager {
         requestDecodable(endpoint: endpoint, parameters: parameters, headers: headers, completion: completion)
     }
 
-    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<SearchResponse, NetworkError>) -> Void) {
-        
+    func searchPhotos(query: String, page: Int = 1, perPage: Int = 50, completion: @escaping (Result<PhotoResponce, NetworkError>) -> Void) {
+
         let endpoint = "\(baseURL)/search"
         let parameters: [String: Any] = ["query": query,
                                          "locale": getLocale(),
@@ -69,7 +70,7 @@ class NetworkManager {
 
     func fetchPhoto(id: Int, locale: String = "en-US", completion: @escaping (Result<Photo, NetworkError>) -> Void) {
         let endpoint = "\(baseURL)/photos/\(id)"
-           let parameters: [String: Any] = ["locale": getLocale()]
+        let parameters: [String: Any] = ["locale": getLocale()]
 
 
         let headers: HTTPHeaders = ["Authorization": apiKey]
@@ -98,40 +99,30 @@ class NetworkManager {
             .validate()
             .responseDecodable(of: T.self) { response in
                 switch response.result {
-                case .success(let result):
-                    print(result)
-                    completion(.success(result))
-                case .failure(let error):
-                    if let afError = error as? AFError {
-                        switch afError {
-                        case .responseValidationFailed(let reason):
-                            switch reason {
-                            case .unacceptableStatusCode(_):
+                    case .success(let result):
+                        print(result)
+                        completion(.success(result))
+                    case .failure(let error):
+                        switch error {
+                            case .responseValidationFailed(let reason):
                                 completion(.failure(.invalidResponse))
                             default:
-                                completion(.failure(.unknownError))
-                            }
-                        default:
-                            completion(.failure(.unknownError))
+                                let nsError = error as NSError
+                                if nsError.domain == NSURLErrorDomain {
+                                    switch nsError.code {
+                                        case NSURLErrorTimedOut:
+                                            completion(.failure(.timeout))
+                                        case NSURLErrorNotConnectedToInternet:
+                                            completion(.failure(.noInternetConnection))
+                                        default:
+                                            completion(.failure(.unknownError))
+                                    }
+                                } else {
+                                    completion(.failure(.unknownError))
+                                }
                         }
-                    } else {
-                        // Handle URLError
-                        let nsError = error as NSError
-                        if nsError.domain == NSURLErrorDomain {
-                            switch nsError.code {
-                            case NSURLErrorTimedOut:
-                                completion(.failure(.timeout))
-                            case NSURLErrorNotConnectedToInternet:
-                                completion(.failure(.noInternetConnection))
-                            default:
-                                completion(.failure(.unknownError))
-                            }
-                        } else {
-                            completion(.failure(.unknownError))
-                        }
-                    }
                 }
-            }
+        }
     }
 }
 

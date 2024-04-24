@@ -81,7 +81,7 @@ extension ViewModel {
         NetworkManager.shared.fetchCuratedPhotos(page: pagination.currentPage) { result in
             switch result {
                 case .success(let responce):
-                    self.handleCuratedResponse(responce)
+                    self.handleResponse(responce)
                 case .failure(let error):
                     self.handleNetworkError(error)
             }
@@ -93,7 +93,7 @@ extension ViewModel {
         NetworkManager.shared.searchPhotos(query: query, page: pagination.currentPage) { result in
             switch result {
                 case .success(let responce):
-                    self.handleSearchResponse(responce)
+                    self.handleResponse(responce)
                 case .failure(let error):
                     self.handleNetworkError(error)
             }
@@ -101,7 +101,7 @@ extension ViewModel {
     }
 
     // MARK: - Response Handlers
-    private func handleCuratedResponse(_ response: CuratedPhotosResponse) {
+    private func handleResponse(_ response: PhotoResponce) {
         resetErrorAndLoading()
         for photo in response.photos {
             let photo: Photo = photo
@@ -109,19 +109,6 @@ extension ViewModel {
             photos.dataSource.append(photoModel)
         }
         pagination.totalResult = response.totalResults
-    }
-
-    private func handleSearchResponse(_ response: SearchResponse) {
-        resetErrorAndLoading()
-        for photo in response.photos {
-            let photo: Photo = photo
-            let photoModel = Module.Model.PhotoModel(from: photo)
-            photos.dataSource.append(photoModel)
-        }
-        pagination.totalResult = response.totalResults
-        if photos.dataSource.isEmpty {
-            errorMessage = NSLocalizedString("No result found", comment: "")
-        }
     }
 
     private func handleNetworkError(_ error: NetworkError) {
