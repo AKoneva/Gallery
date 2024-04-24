@@ -18,4 +18,11 @@ struct PhotoResponce: Codable {
         case totalResults = "total_results"
         case perPage = "per_page"
     }
+
+    init(totalResults: Int, page: Int, perPage: Int, photos: [Photo]) {
+        self.totalResults = totalResults
+        self.page = page
+        self.perPage = perPage
+        self.photos = photos
+    }
 }

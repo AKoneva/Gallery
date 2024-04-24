@@ -28,12 +28,7 @@ class PhotoCollectionCell: UICollectionViewCell {
 
     // MARK: - Public Methods
     func configure(with photo: Feed.Model.PhotoModel) {
-        if photo.alt.isEmpty {
-            nameLabel.text = NSLocalizedString("Author: ", comment: "")  + photo.photographer
-        } else {
-            nameLabel.text = photo.alt
-        }
-
+        nameLabel.text = NSLocalizedString("Author: ", comment: "")  + photo.photographer
         imageView.kf.setImage(with: photo.url)
     }
 }

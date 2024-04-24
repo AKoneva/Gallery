@@ -21,7 +21,6 @@ extension Module {
         // MARK: - Properties
         private var viewModel: Module.ViewModel = .init()
 
-
         // MARK: - View Lifecycle
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -34,7 +33,7 @@ extension Module {
         }
 
         // MARK: - UI config
-        func collectionViewConfiguration() {
+        private func collectionViewConfiguration() {
             collectionView.dataSource = self
             collectionView.delegate = self
 
@@ -48,7 +47,7 @@ extension Module {
             viewModel.fetchPhotos()
         }
 
-        func collectionLayoutConfiguration() {
+       private func collectionLayoutConfiguration() {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
             layout.minimumLineSpacing = 8
@@ -63,7 +62,7 @@ extension Module {
         }
 
         // MARK: - ViewModel Binding
-        func bindViewModel() {
+        private func bindViewModel() {
             viewModel.$photos
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
@@ -91,7 +90,7 @@ extension Module {
         }
 
         // MARK: - Alert
-        func showErrorAlert(message: String) {
+        private func showErrorAlert(message: String) {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
                                           message: NSLocalizedString(message, comment: ""),
                                           preferredStyle: .alert)
@@ -101,12 +100,12 @@ extension Module {
         }
 
         // MARK: - Activity Indicator
-        func showActivityView() {
+        private func showActivityView() {
             activityView.isHidden = false
             activityView.startAnimating()
         }
 
-        func hideActivityView() {
+        private func hideActivityView() {
             activityView.isHidden = true
             activityView.stopAnimating()
         }
@@ -129,11 +128,9 @@ extension View: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if let previewViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PreviewViewController") as? PreviewViewController {
             let photo = viewModel.photos.dataSource[indexPath.item]
             let preview = Preview.View(id: photo.id)
             navigationController?.pushViewController(preview, animated: true)
-//        }
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

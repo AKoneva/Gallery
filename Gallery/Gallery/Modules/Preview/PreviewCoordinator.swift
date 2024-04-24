@@ -7,5 +7,4 @@
 
 import Foundation
 
-public struct Preview {
-}
+public struct Preview { }

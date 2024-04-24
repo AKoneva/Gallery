@@ -104,7 +104,6 @@ extension ViewModel {
     private func handleResponse(_ response: PhotoResponce) {
         resetErrorAndLoading()
         for photo in response.photos {
-            let photo: Photo = photo
             let photoModel = Module.Model.PhotoModel(from: photo)
             photos.dataSource.append(photoModel)
         }

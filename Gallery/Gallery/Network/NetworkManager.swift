@@ -104,7 +104,7 @@ class NetworkManager {
                         completion(.success(result))
                     case .failure(let error):
                         switch error {
-                            case .responseValidationFailed(let reason):
+                            case .responseValidationFailed(_):
                                 completion(.failure(.invalidResponse))
                             default:
                                 let nsError = error as NSError
